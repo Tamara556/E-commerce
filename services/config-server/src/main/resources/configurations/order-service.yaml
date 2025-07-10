@@ -1,4 +1,15 @@
+server:
+  port: 8070
+
+
 spring:
+  application:
+    config:
+      customer-url: http://localhost:8222/api/v1/customers
+      payment-url: http://localhost:8222/api/v1/payments
+      product-url: http://localhost:8222/api/v1/products
+
+
   datasource:
     url: jdbc:postgresql://localhost:5432/order
     username: postgres
@@ -18,13 +29,4 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping: orderConfirmation:com.micro.ecommerce.dto.OrderConfirmation
-
-server:
-  port: 8070
-
-  application:
-    config:
-      customer-url: http://localhost:8222/api/v1/customers
-      payment-url: http://localhost:8222/api/v1/payments
-      product-url: http://localhost:8222/api/v1/products
 
