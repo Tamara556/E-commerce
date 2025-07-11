@@ -84,15 +84,12 @@ services:
       - microservices-net
 
 
-
-
-
   mail-dev:
     container_name: ms_mail_dev
     image: maildev/maildev
     ports:
       - 1080:1080
-      - 1025:1032
+      - 1025:1025
 networks:
   microservices-net:
     driver: bridge

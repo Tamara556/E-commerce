@@ -8,13 +8,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
+        <module name="discovery" />
+        <module name="gateway" />
+      </profile>
+      <profile name="Annotation profile for product" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath>
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
         <module name="notification" />
         <module name="product" />
-        <module name="discovery" />
         <module name="payment" />
-        <module name="gateway" />
-        <module name="customer" />
         <module name="order" />
+        <module name="customer" />
       </profile>
     </annotationProcessing>
   </component>
