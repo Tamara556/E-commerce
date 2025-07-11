@@ -2,19 +2,22 @@ spring:
   data:
     mongodb:
       url: mongodb://mongodb:27017/notification
+
   kafka:
+    bootstrap-servers: localhost:9092
     consumer:
-      bootstrap-servers: localhost:9092
-      group-id: orderGroup
-      auto-offset-reset: earliest
+      group-id: notification-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
         spring.json.trusted.packages: '*'
-        spring.json.type.mapping: orderConfirmation:com.micro.ecommerce.dto.OrderConfirmation
+        spring.json.type.mapping: |
+          orderConfirmation:com.micro.ecommerce.dto.OrderConfirmation,
+          paymentConfirmation:com.micro.ecommerce.dto.PaymentConfirmation
 
   mail:
-    host: mail-dev
+    host: localhost
     port: 1025
     username: root
     password: root
@@ -23,8 +26,7 @@ spring:
         smtp:
           trust: "*"
         auth: true
-        starttls:
-          enabled: true
+        starttls.enabled: true
         connectiontimeout: 5000
         timeout: 3000
         writetimeout: 5000
