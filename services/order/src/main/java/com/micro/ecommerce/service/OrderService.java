@@ -27,11 +27,11 @@ public class OrderService {
     private final ProductClient productClient;
     private final OrderMapper mapper;
 
-    public Integer createOrder(OrderRequest orderRequest) {
-        var customer = this.customerClient.findCustomerById(orderRequest.customerId())
+    public Integer createOrder(OrderRequest orderRequest, String authToken) {
+        var customer = this.customerClient.findCustomerById(orderRequest.customerId(), authToken)
                 .orElseThrow(() -> new BusinessException("Can't create order:: No customer exists with customer id: " + orderRequest.customerId()));
 
-        var purchasedProducts = this.productClient.purchaseProduct(orderRequest.products());
+        var purchasedProducts = this.productClient.purchaseProduct(orderRequest.products(), authToken);
 
         var order = this.orderRepository.save(mapper.toOrder(orderRequest));
 
@@ -53,7 +53,7 @@ public class OrderService {
                 order.getReference(),
                 customer
         );
-        paymentClient.requestOrderPayment(paymentRequest);
+        paymentClient.requestOrderPayment(paymentRequest, authToken);
 
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(

@@ -3,6 +3,7 @@ package com.micro.ecommerce.endpoint;
 import com.micro.ecommerce.dto.OrderRequest;
 import com.micro.ecommerce.dto.OrderResponse;
 import com.micro.ecommerce.service.OrderService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,11 @@ public class OrderEndpoint {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Integer> createOrder(@RequestBody @Valid OrderRequest orderRequest) {
-        return ResponseEntity.ok(orderService.createOrder(orderRequest));
+    public ResponseEntity<Integer> createOrder(@RequestBody @Valid OrderRequest orderRequest,
+                                               HttpServletRequest httpServletRequest) {
+        String token =  httpServletRequest.getHeader("Authorization");
+
+        return ResponseEntity.ok(orderService.createOrder(orderRequest, token));
     }
 
     @GetMapping
